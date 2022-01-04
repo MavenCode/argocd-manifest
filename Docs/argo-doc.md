@@ -64,7 +64,7 @@ jobs:
 ## Deploy the app from the argocd UI
 The argocd resources are created on the GKE. Login into your gcp account to access the resources in the cluster.  
 
-![created services](https://github.com/kennedyuche/doc-images/blob/main/argocd8.PNG)  
+![created services](https://github.com/MavenCode/argocd-manifest/blob/argocd-image/argocd-images/argocd8.PNG)  
 
 The argocd UI is accessed by clicking on the endpoint IP address of the argocd-server.  
 
@@ -75,7 +75,7 @@ You get this password using the command below on the gcp cloud shell:
 ```  
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d  
 ```  
-![argocd password](https://github.com/kennedyuche/doc-images/blob/main/argocd12.PNG)  
+![argocd password](https://github.com/MavenCode/argocd-manifest/blob/argocd-image/argocd-images/argocd12.PNG)  
 
 The default password is highlighted in the image above (`b9tLM6cE-3XsXK93`).  
 
