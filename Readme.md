@@ -7,13 +7,13 @@ In order to deploy applications on kubernetes clusters, we use `argocd` to autom
 3. Compares pulled manifests and current state of the destination cluster
 4. Applies new manifests to the cluster
 
-![ArgoCD Diagram](./docs/images/argocd-1.jpg)
+![ArgoCD Diagram](./documents/images/argocd-1.jpg)
 
 ## **Argo Installation**
 
 In this section we describe the steps to install the argocd manually on the GKE cluster. However, we configured a git action to automatically install the argocd on our cluster.
 
-[**ArgoCD installation via Git Actions**](./docs/argo-doc.md)
+[**ArgoCD installation via Git Actions**](./documents/argo-doc.md)
 
 ## 1. Create Cluster on GKE
 
