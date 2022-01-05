@@ -1,0 +1,45 @@
+
+name: Deploy and Configure ArgoCD in GKE
+
+on:
+  push:
+    branches:
+    - main
+
+env:
+  GKE_KEY: ${{ secrets.GKE_KEY }}
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: gke-cluster    # TODO: update with mavencode GKE cluster name
+  GKE_ZONE: us-central1-c     # TODO: update with mavencode GKE cluster zone
+
+jobs:
+  setup-install:
+    name: Setup, Install
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Google Cloud CLI
+      uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+      with: 
+        service_account_key: ${{ secrets.GKE_KEY }}
+        project_id: ${{ secrets.GKE_PROJECT }}
+
+    - name: Setup GKE credentials
+      uses: google-github-actions/get-gke-credentials@v0
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.GKE_KEY }}
+        
+    - name: Install argocd in multiple lines
+      run: |-   
+        kubectl delete namespace argocd
+        
+        kubectl create namespace argocd
+        
+        kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+        kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
