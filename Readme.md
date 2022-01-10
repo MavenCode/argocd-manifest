@@ -1,6 +1,6 @@
 ## **ArgoCD**
 
-You can use `argocd` deploy applications on Kubernetes clusters and automate Continuous Deployment (CD). `Argocd` is a tool for automating the procedures of deploying applications.  
+You can use `argocd` to deploy applications on Kubernetes clusters and automate Continuous Deployment (CD). `Argocd` is a tool for automating the procedures of deploying applications.  
 
 The argocd process is as follows:
 
