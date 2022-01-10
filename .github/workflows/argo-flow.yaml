@@ -9,8 +9,8 @@ on:
 env:
   GKE_KEY: ${{ secrets.GKE_KEY }}
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: gke-cluster    # Update with mavencode gke cluster name
-  GKE_ZONE: us-central1-c     # Update with mavencode gke cluster zone
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # Update with mavencode gke cluster name
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}     # Update with mavencode gke cluster zone
 
 jobs:
   setup-install:
@@ -30,8 +30,8 @@ jobs:
     - name: Setup GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
       with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
+        cluster_name: ${{ secrets.GKE_CLUSTER }}
+        location: ${{ secrets.GKE_ZONE }}
         credentials: ${{ secrets.GKE_KEY }}
         
     - name: Install argocd
@@ -39,5 +39,3 @@ jobs:
         kubectl create namespace argocd
         
         kubectl apply -n argocd -f https://raw.githubusercontent.com/MavenCode/argocd-manifest/main/argo-installation-manifest/install.yaml?token=AWTYXWJHHL5JSJWAPYOLW2LB347DG
-
-        kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
