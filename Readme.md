@@ -1,10 +1,74 @@
 ## **ArgoCD**
 
-Use ArgoCD to deploy the application.
+In order to deploy applications on kubernetes clusters, we use `argocd` to automate our Contineous Deployment (CD). As `argocd` name says, it is a tool to automate the procedures for deploying application. The argocd process is as follows:
+
+1. Runs in a kubernetes cluster
+2. Pulls manifests from a remote repository (each 3 minutes or triggered with webhook)
+3. Compares pulled manifests and current state of the destination cluster
+4. Applies new manifests to the cluster
+
+![ArgoCD Diagram](./documents/images/argocd-1.jpg)
 
 ## **Argo Installation**
 
-## 1. Installing ArgoCD
+In this section we describe the steps to install the argocd manually on the GKE cluster. However, we configured a git action to automatically install the argocd on our cluster.
+
+[**ArgoCD installation via Git Actions**](./documents/argo-doc.md)
+
+## 1. Create Cluster on GKE
+
+- Installed gcloud cli on local machine
+- Create google project
+- Activate the google project
+- Enable Kubernetes Engine API on Google account
+
+Then, follow these steps:
+
+```
+gcloud init
+```
+
+Get projects list:
+
+```
+gcloud projects list --sort-by=projectId
+```
+
+Set default project:
+
+```
+gcloud config set project <PROJECT_ID>
+```
+
+Create a cluster on GCloud
+
+```
+gcloud container clusters create <CLUSTER_NAME> --num-nodes=1
+```
+
+I used `mavencode-cluster` as cluster name. You will see such result:
+
+```
+NAME               LOCATION    MASTER_VERSION   MASTER_IP     MACHINE_TYPE  NODE_VERSION     NUM_NODES  STATUS
+mavencode-cluster  us-east1-b  1.21.5-gke.1302  35.227.34.39  e2-medium     1.21.5-gke.1302  1          RUNNING
+```
+
+Then, configure the `kubectl` to access the created cluster on google.
+
+```
+gcloud container clusters get-credentials <CLUSTER_NAME>
+```
+
+The result is:
+
+```
+Fetching cluster endpoint and auth data.
+kubeconfig entry generated for <CLUSTER_NAME>.
+```
+
+Now, the `kubectl` is pointing to the gke cluster.
+
+## 2. Installing ArgoCD
 
 To install ArgoCD on cluster, create a namespace on kubernetes.
 
@@ -20,7 +84,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 **Tip:** It is better to download the install.yaml file and store it locally, then install using the local file. So, you will have full control on the installation. The install.yaml file is included in this repository.
 
-## 2. Installing ArgoCD CLI
+## 3. Installing ArgoCD CLI
 
 ArgoCD CLI helps interacting with ArgoCD. It makes it easier to call ArgoCD APIs.
 
@@ -28,7 +92,7 @@ ArgoCD CLI helps interacting with ArgoCD. It makes it easier to call ArgoCD APIs
 brew install argocd
 ```
 
-## 3. Access ArgoCD Server
+## 4. Access ArgoCD Server
 
 By default, ArgoCD does not expose external IP. So, you can enable the access following the methods metioned in Argo documentation. [Argo Documentation](https://argo-cd.readthedocs.io/en/stable/getting_started/). In this guide, we use **Port Forwarding** and **LoadBalancer**.
 
@@ -50,7 +114,7 @@ kubectl get all -n argocd
 
 **Tip:** for the production environment we need to configure the Ingress. [Ingress Configuration](https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/)
 
-## 4. Login to ArgoCD
+## 5. Login to ArgoCD
 
 Argo initializes its admin user with a random password. This passowrd can be accessed using the following command:
 
@@ -64,7 +128,7 @@ Use username `admin` and the password to login:
 argocd login localhost:8080
 ```
 
-## 5. Register Cluster to ArgoCD (If Argo and Cluster are not local)
+## 6. Register Cluster to ArgoCD (If Argo and Cluster are not local)
 
 Get current kubernetes clusters:
 
@@ -78,7 +142,7 @@ Choose a cluster and register it to the ArgoCD:
 argocd cluster add <cluster-name>
 ```
 
-## 6. Create an App on the Argo
+## 7. Create an App on the Argo
 
 Now, we consider that there is a sample application on a git repository. We want to create an applicatino in the ArgoCD to sync the cluster with this application latest version. ArgoCD pulls the latest version and updates the cluster state.
 
@@ -95,7 +159,7 @@ argocd app create <application-name> \
 
 - `dest-namespace` : the application deploys on the cluster under this namespace. It is recommended to create a namespace for each application or environment.
 
-## 7. Sync Cluster and Application
+## 8. Sync Cluster and Application
 
 At this step, you configured an application on the ArgoCD. But, the cluster has not been updated yet. So, the initial status will be `OutOfSync`. You can see the application description and details using the following command:
 
