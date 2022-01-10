@@ -1,8 +1,10 @@
 ## **ArgoCD**
 
-In order to deploy applications on kubernetes clusters, we use `argocd` to automate our Contineous Deployment (CD). As `argocd` name says, it is a tool to automate the procedures for deploying application. The argocd process is as follows:
+You can use `argocd` to deploy applications on Kubernetes clusters and automate Continuous Deployment (CD). `Argocd` is a tool for automating the procedures of deploying applications.  
 
-1. Runs in a kubernetes cluster
+The argocd process is as follows:
+
+1. Runs in a Kubernetes cluster
 2. Pulls manifests from a remote repository (each 3 minutes or triggered with webhook)
 3. Compares pulled manifests and current state of the destination cluster
 4. Applies new manifests to the cluster
@@ -13,11 +15,12 @@ In order to deploy applications on kubernetes clusters, we use `argocd` to autom
 
 In this section we describe the steps to install the argocd manually on the GKE cluster. However, we configured a git action to automatically install the argocd on our cluster.
 
+Visit the link below to view the configuration.  
 [**ArgoCD installation via Git Actions**](./documents/argo-doc.md)
 
 ## 1. Create Cluster on GKE
 
-- Installed gcloud cli on local machine
+- Install gcloud CLI (command-line interface) on local machine
 - Create google project
 - Activate the google project
 - Enable Kubernetes Engine API on Google account
