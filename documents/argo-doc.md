@@ -81,7 +81,6 @@ Refreshing the Kubernetes engine page, the Services & Ingress section updates to
 
 ![Updated Services & Ingress](https://github.com/MavenCode/argocd-manifest/blob/argocd-image/argocd-images/argocd%202.PNG)
 
-
 The argocd UI is accessed by clicking on the endpoint IP address of the argocd-server.  
 
 To login into the argocd UI, you will need the default password of the system.  
@@ -101,4 +100,8 @@ password: `b9tLM6cE-3XsXK93`  (use the password you derived from the step above)
 
 You can update the default password.  
 
-Login to the argocd UI and deploy the application.
+Login to the argocd UI and deploy the application.  
+
+The argocd UI is similar to the image below.  
+
+![argocd UI](https://github.com/MavenCode/argocd-manifest/blob/argocd-image/argocd-images/argocd%203.PNG)
