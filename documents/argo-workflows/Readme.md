@@ -54,7 +54,7 @@ kubectl get svc argo-server -n argo
 ```
 
 **Ingerss**
-Follow the instructions in this thread: [Ingress](https://argoproj.github.io/argo-workflows/argo-server/#ingress)
+We will be using `nginx.ingress` to setup access to UI. Please follow [NGINX.Ingress](./nginx-ingress-gke.md) document.
 
 The rest of the document is as follow:
 
