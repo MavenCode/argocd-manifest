@@ -51,11 +51,11 @@ jobs:
         location: ${{ secrets.GKE_ZONE }}
         credentials: ${{ secrets.GKE_KEY }}
         
-    - name: Install argocd                  # This installs the argocd on the GKE cluster established above
+    - name: Install argocd                  # This installs the argocd on the GKE cluster from the manifest
       run: |-     
         kubectl create namespace argocd     
         
-        kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml  
+        while ! kustomize build install-manifest | kubectl apply -n argocd -f -; do echo "Retrying to apply resources"; sleep 10; done
 ```  
 
 ## Deploy the app from the argocd UI  
