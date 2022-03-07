@@ -1,4 +1,3 @@
-
 name: Deploy and Configure ArgoCD in GKE
 
 on:
@@ -9,8 +8,8 @@ on:
 env:
   GKE_KEY: ${{ secrets.GKE_KEY }}
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: gke-cluster    # TODO: update with mavencode GKE cluster name
-  GKE_ZONE: us-central1-c     # TODO: update with mavencode GKE cluster zone
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # Update with mavencode gke cluster name
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}     # Update with mavencode gke cluster zone
 
 jobs:
   setup-install:
@@ -30,16 +29,12 @@ jobs:
     - name: Setup GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
       with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
+        cluster_name: ${{ secrets.GKE_CLUSTER }}
+        location: ${{ secrets.GKE_ZONE }}
         credentials: ${{ secrets.GKE_KEY }}
         
-    - name: Install argocd in multiple lines
+    - name: Install argocd
       run: |-   
-        kubectl delete namespace argocd
-        
         kubectl create namespace argocd
         
-        kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-        kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+        while ! kustomize build install-manifest | kubectl apply -n argocd -f -; do echo "Retrying to apply resources"; sleep 10; done
