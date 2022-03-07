@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - kubeflow-namespace.yaml
+  - istio-namespace.yaml 
+  - user-namespace.yaml
+  - admission-webhook.yaml
+  - centraldashboard.yaml
+  - cert-manager.yaml
+  - cluster-local-gateway.yaml
+  - dex.yaml
+  - istio-crds.yaml
+  - istio-install.yaml
+  - jupyter-web-app.yaml
+  - katib.yaml
+  - kfserving.yaml
+  - knative-eventing.yaml
+  - knative-serving.yaml
+  - kserve.yaml
+  - kubeflow-issuer.yaml
+  - kubeflow-istio-resources.yaml
+  - kubeflow-pipelines.yaml
+  - kubeflow-roles.yaml
+  - models-web-app.yaml
+  - notebook-controller.yaml
+  - oidc-authservice.yaml
+  - profiles.yaml
+  - tensorboard-web-app.yaml
+  - tensorboards-controller.yaml
+  - training-operator.yaml
+  - volumes-web-app.yaml
