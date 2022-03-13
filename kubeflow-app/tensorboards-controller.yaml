@@ -24,9 +24,9 @@ spec:
     - PrunePropagationPolicy=foreground
     - PruneLast=true
     
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 3m
+    # retry:
+    #   limit: 5
+    #   backoff:
+    #     duration: 5s
+    #     factor: 2
+    #     maxDuration: 3m
