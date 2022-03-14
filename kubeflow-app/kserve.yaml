@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kserve
-  namespace: argocd
+  namespace: kubeflow
 spec:
   project: default
   source:

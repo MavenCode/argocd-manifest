@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: tensorboard-controller
-  namespace: argocd
+  namespace: kubeflow
 spec:
   project: default
   source:
