@@ -19,10 +19,12 @@ spec:
       selfHeal: true
       allowEmpty: false
     syncOptions:
+    - ApplyOutOfSyncOnly=true
     - Validate=false
     - CreateNamespace=true
     - PrunePropagationPolicy=foreground
     - PruneLast=true
+    - FailOnSharedResource=false
     
     # retry:
     #   limit: 5
